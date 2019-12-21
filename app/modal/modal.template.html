@@ -1,0 +1,11 @@
+<div class="modal-header">
+    <h3 class="modal-title" id="modal-title">{{self.item.title}}</h3>
+</div>
+<div class="modal-body" id="modal-body">
+    <ul>
+        <li class="modal__list-item" ng-repeat="ingredient in self.item.ingredients track by $index">{{ingredient}}</li>
+    </ul>
+</div>
+<div class="modal-footer">
+    <button class="btn" type="button" ng-click="self.modalClose()">Close</button>
+</div>

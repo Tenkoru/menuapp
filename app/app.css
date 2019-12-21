@@ -1,0 +1,87 @@
+/* app css stylesheet */
+
+body {
+    margin: 0;
+}
+
+menu-container {
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+.title {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.table__th {
+    text-transform: capitalize;
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+.table {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table__img {
+    object-fit: contain;
+}
+.th__inner {
+    display: flex;
+    justify-content: space-between;
+}
+.table__th-label {
+    margin-bottom: 0;
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+}
+.table__th-label-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.filters__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: inline-flex;
+    flex-direction: column;
+}
+.filters {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+.filters__title {
+    width: 100%;
+}
+.filters__item > label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.filters__item input {
+    margin-left: 10px;
+}
+.table__th-label > input {
+    margin-left: 5px;
+}
+.table__row > td {
+    text-align: center;
+}
+
+.sortorder:after {
+    content: "\25b2";
+}
+.sortorder.reverse:after {
+    content: "\25bc";
+}
+.modal-title {
+    font-size: 18px;
+}
