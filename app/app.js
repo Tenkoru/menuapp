@@ -1,4 +1,4 @@
 "use strict";
 
 // Declare app level module which depends on views, and core components
-angular.module("menuApp", ["ngRoute", "menuContainer"]);
+angular.module("menuApp", ["ngRoute", "menuContainer", "ngResource"]);

@@ -3,26 +3,28 @@
 angular.module("menuContainer").component("menuContainer", {
     templateUrl: "menu/menu-container.template.html",
     controller: [
-        "$http",
+        "DataService",
         "$uibModal",
         "$localStorage",
-        function MenuController($http, $uibModal, $localStorage) {
+        function MenuController(DataService, $uibModal, $localStorage) {
             var self = this;
+
+            self.items = DataService.query();
             self.$storage = $localStorage;
             self.headers = ["title", "image", "rating", "price"];
-            self.image = {
+            self.imageProps = {
                 width: "150px",
                 height: "150px"
             };
+            self.search = {};
 
             self.orderProp = self.$storage.orderProp || "title";
             self.reverse = self.$storage.reverse || false;
 
-            self.allQuery = self.$storage.allQuery;
-            self.titleQuery = self.$storage.titleQuery;
-            self.imageQuery = self.$storage.imageQuery;
-            self.ratingQuery = self.$storage.ratingQuery;
-            self.priceQuery = self.$storage.priceQuery;
+            self.allFieldsQuery = self.$storage.allFieldsQuery;
+            self.headers.forEach(function(header) {
+                self.search[header] = self.$storage[header];
+            });
 
             self.sortBy = function(propName) {
                 self.reverse = self.orderProp === propName ? !self.reverse : false;
@@ -31,57 +33,36 @@ angular.module("menuContainer").component("menuContainer", {
                 self.$storage.reverse = self.reverse;
                 self.$storage.orderProp = self.orderProp;
             };
-            // self.search = function(item) {
-            //     return (
-            //         self.searchCompare(item.title) ||
-            //         self.searchCompare(item.image) ||
-            //         self.searchCompare(item.rating) ||
-            //         self.searchCompare(item.price)
-            //     );
-            // };
+            self.allFieldsSearch = function(item) {
+                return (
+                    self.searchCompare(item.title) ||
+                    self.searchCompare(item.image) ||
+                    self.searchCompare(item.rating) ||
+                    self.searchCompare(item.price)
+                );
+            };
             self.searchCompare = function(string) {
                 return (
                     angular
                         .lowercase(string)
                         .toString()
-                        .indexOf(angular.lowercase(self.allQuery) || "") !== -1
+                        .indexOf(angular.lowercase(self.allFieldsQuery) || "") !== -1
                 );
             };
             self.resetFilters = function() {
-                self.allQuery = "";
-                self.titleQuery = "";
-                self.imageQuery = "";
-                self.ratingQuery = "";
-                self.priceQuery = "";
-                self.$storage.allQuery = "";
-                self.$storage.titleQuery = "";
-                self.$storage.imageQuery = "";
-                self.$storage.ratingQuery = "";
-                self.$storage.priceQuery = "";
+                self.allFieldsQuery = "";
+                self.$storage.allFieldsQuery = "";
+                self.headers.forEach(function(header) {
+                    self.search[header] = "";
+                    self.$storage[header] = ""
+                });
             };
 
             self.saveToLocalstorage = function(type, value) {
-                switch (type) {
-                    case "all": {
-                        self.$storage.allQuery = value;
-                        break;
-                    }
-                    case "title": {
-                        self.$storage.titleQuery = value;
-                        break;
-                    }
-                    case "image": {
-                        self.$storage.imageQuery = value;
-                        break;
-                    }
-                    case "rating": {
-                        self.$storage.ratingQuery = value;
-                        break;
-                    }
-                    case "price": {
-                        self.$storage.priceQuery = value;
-                        break;
-                    }
+                if (type === "all") {
+                    self.$storage.allFieldsQuery = value;
+                } else {
+                    self.$storage[type] = value;
                 }
             };
             self.openModal = function(item) {
@@ -104,13 +85,7 @@ angular.module("menuContainer").component("menuContainer", {
                         function(res) {}
                     );
             };
-            self.closeModal = function() {
-                $uibModal.close();
-            };
 
-            $http.get("menuData/menu.json").then(function(response) {
-                self.items = response.data;
-            });
         }
     ]
 });

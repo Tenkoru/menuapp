@@ -75,6 +75,9 @@ menu-container {
 .table__row > td {
     text-align: center;
 }
+.table__row  {
+    cursor: pointer;
+}
 
 .sortorder:after {
     content: "\25b2";
